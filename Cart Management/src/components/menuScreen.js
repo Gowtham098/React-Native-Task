@@ -17,8 +17,6 @@ import helpers from '../helpers/helpers'
 let SCREEN_HEIGHT = Dimensions.get('window').height;
 let SCREEN_WIDTH = Dimensions.get('window').width;
 
-
-
 const MenuScreen = (props)=>{ 
   const { items, addItemToCart, cartItems, setCartData, navigation } = props;
   const itemSections = Object.keys(items);
@@ -40,72 +38,80 @@ const MenuScreen = (props)=>{
   
   return (
     <View style = {{flex:1}}>
-        <StatusBar hidden = {false} backgroundColor = 'rgba(0,0,0,0.5)'/>
-          <Image source = {require('../../assets/inkaImage.png')} style = {styles.imageStyles}/>
-          <View style = {{flexDirection:'row',position:'absolute',top:6,right:10,margin:5,justifyContent:'space-evenly',width:'20%'}}>
-            <Image source = {require('../../assets/upload.png')}style = {{height:20,width:20}}/>
-            <Image  tintColor = "#ffffff"source = {require('../../assets/info.png')} style = {{height:20,width:20}}/>
-          </View>
-      <Card style = {styles.cardStyles}>
-        <View style = {styles.cardContentStyles}>
-            <Text style = {styles.text1}>Inka Restaurant</Text>
-              <View style = {styles.textNodeParent}>
-                  <View style = {styles.textView1}>
-                    <Image source = {require('../../assets/star.png')} style = {styles.iconStyle}/>
-                    <Text style = {styles.text2}>5.0(200+)</Text>
-                  </View>
-                  <Text style = {styles.text2}>All days : 09:00AM - 06:00PM </Text>
-              </View>
-              <View style ={styles.textView2}>
-                <Image source = {require('../../assets/phone.png')} style = {styles.iconStyle}/>
-                <Text style = {styles.text2}>Reach us at : 9854562142</Text>
-              </View>
-              <View style = {styles.textView3}>
-                <Text style = {{color:'#ffffff'}}>BOOK A TABLE</Text>
-              </View>
+
+        <StatusBar
+          hidden = {false}
+          backgroundColor = 'rgba(0,0,0,0.5)'
+        />
+
+        <Image source = {require('../../assets/inkaImage.png')} style = {styles.imageStyles}/>
+
+        <View style = {styles.View1}>
+          <Image source = {require('../../assets/upload.png')} style = {{height:20,width:20}}/>
+          <Image  tintColor = "#ffffff" source = {require('../../assets/info.png')} style = {{height:20,width:20}}/>
         </View>
-      </Card>
-      <View style = {{top:'15%'}}>
-        <Text style = {{margin:10,fontSize:20}}>{section}</Text>
-        {
-          items[section].map((dishObj) => {
-            const count = helpers.getSimilarDishesLength(dishObj.id, cartItems);
-            return (
-            <View key={dishObj.id} style = {{flexDirection:'row',alignItems:'center',marginHorizontal:10,borderBottomWidth:0.5,borderColor:'#d1e0e0'}}>
-              <View>
-                <Text style = {styles.itemText}>N</Text>
-                <Text style = {{...styles.itemText,top:3}}>D</Text>
-              </View>
-              <View style = {{flexDirection:'column',padding:10}}>
-                  <Text style ={{width:'100%',fontSize:15}}>{dishObj.name}</Text>
-                  <Text style = {{width:'100%'}}>{dishObj.taste}</Text>
-                  <Text style = {{color:'#ffbb99'}}>€{dishObj.price}</Text>
-              </View>
-              {
-                count ?
-                (
-                  <View style = {styles.quantityUpdatedView}>
-                  <TouchableOpacity  style={styles.plusImageView} onPress={() => removeAItem(dishObj.id)}>
-                    <Image source = {require('../../assets/minus.png')} style = {{height:10,width:10}}/>
-                  </TouchableOpacity>
 
-                  <Text style = {{alignItems:'center',justifyContent:'center',left:2}}>{count}</Text>
-
-                  <TouchableOpacity  style={styles.minusImageView}  onPress={() => { count < 20 && addItemToCart(dishObj) }}>
-                    <Image source = {require('../../assets/plus.png')} style = {{height: 10,width: 10,position: 'absolute',right: 10}} />
-                  </TouchableOpacity>
+        <Card style = {styles.cardStyles}>
+          <View style = {styles.cardContentStyles}>
+            <Text style = {styles.text1}>Inka Restaurant</Text>
+            <View style = {styles.textNodeParent}>
+              <View style = {styles.textView1}>
+                <Image source = {require('../../assets/star.png')} style = {styles.iconStyle}/>
+                <Text style = {styles.text2}>5.0(200+)</Text>
+              </View>
+              <Text style = {styles.text2}>All days : 09:00AM - 06:00PM </Text>
+            </View>
+            <View style ={styles.textView2}>
+              <Image source = {require('../../assets/phone.png')} style = {styles.iconStyle}/>
+              <Text style = {styles.text2}>Reach us at : 9854562142</Text>
+            </View>
+            <View style = {styles.textView3}>
+              <Text style = {{color:'#ffffff'}}>BOOK A TABLE</Text>
+            </View>
+          </View>
+        </Card>
+        <View style = {{top:'15%'}}>
+          <Text style = {{margin:10,fontSize:20}}>{section}</Text>
+          {
+            items[section].map((dishObj) => {
+              const count = helpers.getSimilarDishesLength(dishObj.id, cartItems);
+              return (
+                <View key={dishObj.id} style = {{flexDirection:'row',alignItems:'center',marginHorizontal:10,borderBottomWidth:0.5,borderColor:'#d1e0e0'}}>
+                  <View>
+                    <Text style = {styles.itemText}>N</Text>
+                    <Text style = {{...styles.itemText,top:3}}>D</Text>
                   </View>
-                ) 
-              : 
-                (
-                  <TouchableOpacity style = {styles.addButton} onPress={() => addItemToCart(dishObj)}>
-                    <Text>Add</Text>
-                  </TouchableOpacity>
-                )
-              }
-              </View>)
-          })
-        }   
+                  <View style = {{flexDirection:'column',padding:10}}>
+                    <Text style ={{width:'100%',fontSize:15}}>{dishObj.name}</Text>
+                    <Text style = {{width:'100%'}}>{dishObj.taste}</Text>
+                    <Text style = {{color:'#ffbb99'}}>€{dishObj.price}</Text>
+                  </View>
+                  {
+                    count ?
+                    (
+                      <View style = {styles.quantityUpdatedView}>
+                        <TouchableOpacity  style={styles.plusImageView} onPress={() => removeAItem(dishObj.id)}>
+                          <Image source = {require('../../assets/minus.png')} style = {{height:10,width:10}}/>
+                        </TouchableOpacity>
+
+                        <Text style = {{alignItems:'center',justifyContent:'center',left:2}}>{count}</Text>
+
+                        <TouchableOpacity  style={styles.minusImageView}  onPress={() => { count < 20 && addItemToCart(dishObj) }}>
+                          <Image source = {require('../../assets/plus.png')} style = {{height: 10,width: 10,position: 'absolute',right: 10}} />
+                        </TouchableOpacity>
+                      </View>
+                    ) 
+                  : 
+                    (
+                      <TouchableOpacity style = {styles.addButton} onPress={() => addItemToCart(dishObj)}>
+                        <Text>Add</Text>
+                      </TouchableOpacity>
+                    )
+                  }
+                </View>
+              )
+            })
+          }   
         </View>
         <TouchableOpacity onPress = {()=>setModalVisible(true)} style = {styles.menuView}>
           <Image source = {require('../../assets/menuIcon.png')} style = {{height:25,width:25}}/>
@@ -117,7 +123,6 @@ const MenuScreen = (props)=>{
           <Text style = {styles.viewCartText}>({cartItems.length} ITEMS) </Text>
         </TouchableOpacity>
 
-
         <Modal
           animationType="slide"
           transparent={true}
@@ -127,10 +132,10 @@ const MenuScreen = (props)=>{
           }}
         >
           <TouchableOpacity
-              activeOpacity={2}
-              onPress={() => setModalVisible(!modalVisible)}
-              style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute', bottom: 0, top: 0, left: 0, right: 0,height:'100%'}}
-            />
+            activeOpacity={2}
+            onPress={() => setModalVisible(!modalVisible)}
+            style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute', bottom: 0, top: 0, left: 0, right: 0,height:'100%'}}
+          />
           <View style={styles.centeredView}>
             <View style={styles.modalView}>    
               {
@@ -149,9 +154,9 @@ const MenuScreen = (props)=>{
 }
 
 const mapStateToProps = state => {
-  return { 
-      items: state.menuReducer,
-      cartItems: state.cartReducer.cart
+  return {
+    items: state.menuReducer,
+    cartItems: state.cartReducer.cart
   }
 }
 
@@ -165,17 +170,27 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
 
 const styles = StyleSheet.create({
-  imageStyles:{
-  
-      width: '100%',
-      height: 200,
-      resizeMode: 'cover'
+  imageStyles:
+  {  
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover'
   },
-  iconStyle:{
+  View1:
+  {
+    flexDirection:'row',
+    position:'absolute',
+    top:6,right:10,margin:5,
+    justifyContent:'space-evenly',
+    width:'20%',
+  },
+  iconStyle:
+  {
     height:14,
     width:14,
   },
-  cardStyles:{
+  cardStyles:
+  {
     width: SCREEN_WIDTH-40,
     marginLeft:20,
     height:'20%',
@@ -183,37 +198,43 @@ const styles = StyleSheet.create({
     position:'absolute',
     top:'20%'
   },
-  cardContentStyles:{
+  cardContentStyles:
+  {
     padding:10,
     alignItems:'center'
   },
-  text1:{
+  text1:
+  {
     fontWeight:'bold',
     fontSize:20
   },
-  textNodeParent:{
-
+  textNodeParent:
+  {
     flexDirection:'row',
     padding:2,
     alignItems:'center',
     margin:5
   },
-  textView1:{
+  textView1:
+  {
     alignItems:'center',  
     borderRightWidth:0.5,
     height:16,width:'32%',
     flexDirection:'row'
   },
-  text2:{
+  text2:
+  {
     paddingLeft:4,
     fontWeight:'200'
   },
-  textView2:{
+  textView2:
+  {
     flexDirection:'row',
     alignItems:'center',
     margin:5
   },
-  textView3:{
+  textView3:
+  {
     backgroundColor:'#001a33',
     margin:5,
     padding:5,
@@ -221,7 +242,8 @@ const styles = StyleSheet.create({
     width:'50%',
     alignItems:'center',
   },
-  viewCart:{
+  viewCart:
+  {
     position:'absolute',
     bottom:0,
     backgroundColor:'#001a33',
@@ -232,11 +254,13 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     
   },
-  viewCartText:{
+  viewCartText:
+  {
     color:'#ffffff',
     fontSize:17
   },
-  menuView:{
+  menuView:
+  {
     position:'absolute',
     bottom:80 ,
     flexDirection:'row',
@@ -250,22 +274,22 @@ const styles = StyleSheet.create({
   },
   quantityUpdatedView:
   {
-      flexDirection: 'row',
-      position:'absolute',
-      right:10,
-      alignItems: 'center',
-      height:30,
-      top:12,
-      width:'24%',
-      borderWidth: 0.5,
-      borderColor: '#ffbb99',
-      shadowColor: '#FFF',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.4,
-      shadowRadius: 1,
+    flexDirection: 'row',
+    position:'absolute',
+    right:10,
+    alignItems: 'center',
+    height:30,
+    top:12,
+    width:'24%',
+    borderWidth: 0.5,
+    borderColor: '#ffbb99',
+    shadowColor: '#FFF',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 1,
   },
-  addButton:{
-   
+  addButton:
+  {
     position:'absolute',
     right:10,
     alignItems: 'center',
@@ -275,15 +299,15 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#ffbb99',
     justifyContent:'center',
-   
   },
-  centeredView: {
+  centeredView:
+  {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  
   },
-  modalView: {
+  modalView:
+  {
     width:'80%',
     position:'absolute',
     bottom:50,
@@ -299,21 +323,25 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5
   },
-  modalTextView:{
+  modalTextView:
+  {
     flexDirection:'row',
     justifyContent:'space-between',
     margin:5,
   },
-  modalText: {
-  fontSize:18
+  modalText:
+  {
+    fontSize:18
   },
-  plusImageView:{
+  plusImageView:
+  {
     height:40,
     width:40,
     alignItems:'center',
     justifyContent:'center'
   },
-  minusImageView:{
+  minusImageView:
+  {
     height:40,
     width:40,
     alignItems:'center',
@@ -321,7 +349,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 2
   },
-  itemText:{
+  itemText:
+  {
     borderWidth:1,
     borderColor:'grey',
     width:15,
